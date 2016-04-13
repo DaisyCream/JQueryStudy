@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="daisyJs.js"></script>
+</head>
+<body>
+    <div id="box">Box
+        <p> This is a p!</p>
+        <div class="content">123</div>
+    </div>
+</body>
+</html>
+<script>
+    var box = $("#box");
+
+    var str = [1,2,3,4];
+
+    var a = {
+        x : 1,
+        x1 : 2
+    };
+
+
+    function convertToArray(nodes){
+        var array = null;
+        if(Array.prototype.slice){
+            array = Array.prototype.slice(nodes, 0);
+        }else{
+            for(var i=0;i<nodes.length;i++){
+                array.push(nodes[i]);
+            }
+
+        }
+        return array;
+    }
+
+    var m = convertToArray(a);
+
+    console.log(str);
+    console.log(a);
+
+</script>

@@ -13,32 +13,11 @@
 </body>
 </html>
 <script>
-    var box = $("#box");
-
-    var str = [1,2,3,4];
-
-    var a = {
-        x : 1,
-        x1 : 2
-    };
-
-
-    function convertToArray(nodes){
-        var array = null;
-        if(Array.prototype.slice){
-            array = Array.prototype.slice(nodes, 0);
-        }else{
-            for(var i=0;i<nodes.length;i++){
-                array.push(nodes[i]);
-            }
-
-        }
-        return array;
+    function s(){
+        console.log(arguments.length);
     }
 
-    var m = convertToArray(a);
-
-    console.log(str);
-    console.log(a);
-
+    s(1);
+    s({x:1});
+    s(1,2,3,4);
 </script>

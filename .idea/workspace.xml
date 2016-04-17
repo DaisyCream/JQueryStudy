@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b6d079d0-f48f-446a-8995-cbbef1ac4625" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gitStudy/DaisyJs/daisyJs.js" afterPath="$PROJECT_DIR$/gitStudy/DaisyJs/daisyJs.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gitStudy/DaisyJs/index.html" afterPath="$PROJECT_DIR$/gitStudy/DaisyJs/index.html" />
     </list>
     <ignored path="JQueryStudy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,8 +36,8 @@
       <file leaf-file-name="daisyJs.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gitStudy/DaisyJs/daisyJs.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6765464">
-              <caret line="58" column="28" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="28" />
+            <state vertical-scroll-proportion="1.0">
+              <caret line="71" column="18" selection-start-line="71" selection-start-column="18" selection-end-line="71" selection-end-column="18" />
               <folding>
                 <element signature="e#0#44#0" expanded="false" />
               </folding>
@@ -79,7 +78,7 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="712" />
+    <option name="x" value="710" />
     <option name="y" value="23" />
     <option name="width" value="720" />
     <option name="height" value="873" />
@@ -210,7 +209,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="712" y="23" width="720" height="873" extended-state="0" />
+    <frame x="710" y="23" width="720" height="873" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2013889" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
@@ -270,8 +269,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gitStudy/DaisyJs/daisyJs.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6765464">
-          <caret line="58" column="28" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="28" />
+        <state vertical-scroll-proportion="1.0">
+          <caret line="71" column="18" selection-start-line="71" selection-start-column="18" selection-end-line="71" selection-end-column="18" />
           <folding>
             <element signature="e#0#44#0" expanded="false" />
           </folding>

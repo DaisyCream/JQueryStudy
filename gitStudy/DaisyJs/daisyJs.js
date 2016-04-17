@@ -27,7 +27,7 @@
         bind : function(){
 
             if(arguments.length == 1){
-                //
+                //参数只有一个时，那是对象，键值对，key是事件名称，value是callback
                 var events = arguments[0];
 
                 for(var i=0;i<events.length;i++){
@@ -57,7 +57,21 @@
         },
 
         unbind : function(){
+            if(arguments.length == 1){
+                //
+                var events = arguments[0];
 
+                for(var i=0;i<events.length;i++){
+                    addEvent(events[i].key, events);
+                }
+
+            }else if(arguments.length == 2){
+                //
+                addEvent(arguments[0],arguments[1]);
+            }else{
+                //
+                addEvent()
+            }
 
         }
 

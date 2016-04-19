@@ -20,6 +20,10 @@
     <div id="box">Box
         <p> This is a p!</p>
         <div class="content">123</div>
+        <span class="green">香蕉</span>
+        <span class="red">桃子</span>
+        <span class="green">葡萄</span>
+        <span class="red">荔枝</span>
     </div>
     <div>
         nihao
@@ -27,18 +31,32 @@
 </body>
 </html>
 <script>
-    function s(){
-        console.log(arguments.length);
-    }
 
 
     var box1 = document.getElementById('box');
-    $("#box").addClass("nihao");
-    $("#box").addClass("wohao");
-    console.log(typeof box1.className);
-    $("#box").removeClass("wohao");
+//    $("#box").addClass("nihao");
+//    $("#box").addClass("wohao");
+////    console.log(typeof box1.className);
+//    $("#box").removeClass("wohao");
 
-    $(".content").after("<span>wahah</span>");
-//    var n = $("<span>whahah</span>");
-//    console.log(typeof n.obj.outerHTML);
+//    $(".content").after("<span>wahah</span>");
+    var s = $(".content");
+//    console.log(s.clone(false));
+//    s.wrap("<div></div>");
+//    $("span").each(function(index){
+//        if(index == 2){
+//            console.log(this);
+////            console.log($(this);
+//            $(this).addClass('nihao');
+//        }
+//    });
+
+    $("span").empty(".green");
+
+//    console.log();
+//    console.log(typeof $("span").obj);
+
+
+
+
 </script>

@@ -17,7 +17,12 @@
         obj : null,
 
         init : function(selector){
-            if(selector.indexOf("<") != -1){
+            if(typeof selector == "object"){
+                this.selector = selector;
+                this.length = 1;
+                this.obj = selector;
+            }
+            else if(selector.indexOf("<") != -1){
                 function strToHtml(str){
                     var dom1 = document.createElement("div");
                     dom1.innerHTML = str;
@@ -28,9 +33,17 @@
                 var obj = strToHtml(selector);
                 this.obj = obj;
                 this.selector = obj.tagName;
+                this.length = 1;
             }else {
+                var selectors = document.querySelectorAll(selector);
+                if(selectors.length>1){
+                    this.obj = selectors;
+                    this.length = selector.length;
+                }else{
+                    this.obj = document.querySelector(selector);
+                    this.length = 1;
+                }
                 this.selector = selector;
-                this.obj = document.querySelector(selector);
             }
             return this;
         },
@@ -201,6 +214,97 @@
             var tag = $(content).obj;
             this.obj.insertAdjacentHTML("afterEnd",tag.outerHTML);
             tag = null;
+        },
+
+        clone : function(bool){
+            if(arguments.length == 1){
+                bool = false;
+            }
+            return this.obj.cloneNode(bool);
+        },
+
+        replaceWith : function(content){
+            console.log(this.obj.parentNode);
+            this.obj.parentNode.replaceChild($(content).obj, this.obj);
+        },
+
+        replaceAll : function(selector){
+            var tag = $(selector).obj;
+            tag.parentNode.replaceChild(this.obj, tag);
+            tag = null;
+        },
+
+
+        wrap : function(wrapper){
+            var tag = $(wrapper).obj;
+            this.obj.parentNode.appendChild(tag);
+            tag.appendChild(this.obj);
+        },
+
+        wrapInner : function(wrapper){
+            var tag = $(wrapper).obj;
+            tag.innerHTML = this.obj.innerHTML;
+            this.obj.innerHTML = null;
+            this.append(tag);
+            tag = null;
+        },
+
+
+        each : function(func){
+                for (var i = 0; i < this.obj.length; i++) {
+                    func.call(this.obj[i], i);
+            }
+        },
+
+        remove : function(element){
+            var compareEle = new Array();
+            $(element).each(function (item) {
+                compareEle.push(this);
+            });
+            if(this.length == 1){
+                //
+                for(var i= 0,len = compareEle.length;i<len;i++){
+                    if(this.obj == compareEle[i]){
+                        this.obj.parentNode.removeChild(this.obj);
+                    }
+                }
+            }else{
+                //
+                this.each(function(index){
+                    for(var i= 0,len = compareEle.length;i<len;i++){
+                        if(this == compareEle[i]){
+                            this.parentNode.removeChild(this);
+                        }
+                    }
+
+                })
+
+            }
+        },
+
+        empty : function(element){
+            var compareEle = new Array();
+            $(element).each(function (item) {
+                compareEle.push(this);
+            });
+            if(this.length == 1){
+                for(var i= 0,len = compareEle.length;i<len;i++){
+                    if(this.obj == compareEle[i]){
+                        this.obj.innerHTML = "";
+                    }
+                }
+            }else{
+                this.each(function(index){
+                    for(var i= 0,len = compareEle.length;i<len;i++){
+                        if(this == compareEle[i]){
+                            this.innerHTML = "";
+                        }
+                    }
+
+                })
+            }
+
+
         },
 
     };

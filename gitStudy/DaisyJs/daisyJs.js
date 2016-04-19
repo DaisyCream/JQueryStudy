@@ -17,9 +17,21 @@
         obj : null,
 
         init : function(selector){
-            this.selector = selector;
-            this.length = selector.length;
-            this.obj = document.querySelector(selector);
+            if(selector.indexOf("<") != -1){
+                function strToHtml(str){
+                    var dom1 = document.createElement("div");
+                    dom1.innerHTML = str;
+                    var dom2 = dom1.childNodes[0];
+                    dom1 = null;
+                    return dom2;
+                }
+                var obj = strToHtml(selector);
+                this.obj = obj;
+                this.selector = obj.tagName;
+            }else {
+                this.selector = selector;
+                this.obj = document.querySelector(selector);
+            }
             return this;
         },
 
@@ -32,9 +44,10 @@
                 //参数只有一个时，那是对象，键值对，key是事件名称，value是callback
                 var events = arguments[0];
 
-                for(var i=0;i<events.length;i++){
-                    addEvent(events[i].key, events);
+                for(var item in events){
+                    addEvent(item, events[item]);
                 }
+
             }else if(arguments.length == 2){
                 //
                 addEvent(arguments[0],arguments[1]);
@@ -63,8 +76,8 @@
                 //
                 var events = arguments[0];
 
-                for(var i=0;i<events.length;i++){
-                    removeEvent(events[i].key, events);
+                for(var item in events){
+                    removeEvent(item, events[item]);
                 }
 
             }else if(arguments.length == 2){
@@ -92,6 +105,10 @@
                 this.setAttribute(attrName, attrValue);
                 return this;
             }
+        },
+
+        removeAttr : function(name){
+            this.obj.removeAttribute(name);
         },
 
         html : function(content){
@@ -131,8 +148,60 @@
             }
         },
 
+        addClass : function(classNames){
+            var reClass = this.obj.className;
+            reClass +=  " " + classNames;
+            this.obj.setAttribute("class", reClass);
+            return this;
+        },
+
+        removeClass : function(name){
+            var classList = this.obj.className.split(" ");
+            for(var i =0 ;i<classList.length;i++){
+                if(classList[i] == name){
+                    classList[i] = "";
+                }
+            }
+            var className = classList.join(" ");
+            this.obj.setAttribute("class", className);
+        },
+
+        css : function(){
+            if(arguments.length == 1){
+                var cssAttr = arguments[0];
+                for(var item in cssAttr){
+                    this.obj.style[item] = cssAttr[item];
+                }
+            }else {
+                this.obj.style[arguments[0]] = arguments[1];
+            }
+
+        },
+
+        /***********************add element************************/
+
+        append : function(tag){
+            this.obj.appendChild(tag);
+        },
+
+        appendTo : function(selector){
+            var tag = $(selector).obj;
+            tag.appendChild(this.obj);
+            tag = null;
+        },
 
 
+        before : function(content){
+            var tag = $(content).obj;
+            this.obj.insertAdjacentHTML("beforeBegin",tag.outerHTML);
+            tag = null;
+        },
+
+        after : function(content){
+            var tag = $(content).obj;
+            this.obj.insertAdjacentHTML("afterEnd",tag.outerHTML);
+            tag = null;
+        },
 
     };
 

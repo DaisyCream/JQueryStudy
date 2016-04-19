@@ -5,10 +5,24 @@
     <title></title>
     <script src="daisyJs.js"></script>
 </head>
+<style>
+    .nihao{
+        background-color: aqua;
+    }
+
+    .wohao{
+        color: #ffffff;
+    }
+
+
+</style>
 <body>
     <div id="box">Box
         <p> This is a p!</p>
         <div class="content">123</div>
+    </div>
+    <div>
+        nihao
     </div>
 </body>
 </html>
@@ -19,7 +33,12 @@
 
 
     var box1 = document.getElementById('box');
-    $("#box").html("<i>nizhidao</i>");
-    console.log($("#box").html());
-    console.log(box1.innerHTML);
+    $("#box").addClass("nihao");
+    $("#box").addClass("wohao");
+    console.log(typeof box1.className);
+    $("#box").removeClass("wohao");
+
+    $(".content").after("<span>wahah</span>");
+//    var n = $("<span>whahah</span>");
+//    console.log(typeof n.obj.outerHTML);
 </script>

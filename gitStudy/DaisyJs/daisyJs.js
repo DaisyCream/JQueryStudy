@@ -17,11 +17,16 @@
         obj : null,
 
         init : function(selector){
+            //当selector是对像的时候，obj就为selector
             if(typeof selector == "object"){
                 this.selector = selector;
                 this.length = 1;
                 this.obj = selector;
             }
+            else if(typeof selector == "function"){
+                $(document).ready(selector);
+            }
+            //当传入的是string
             else if(selector.indexOf("<") != -1){
                 function strToHtml(str){
                     var dom1 = document.createElement("div");
@@ -34,82 +39,22 @@
                 this.obj = obj;
                 this.selector = obj.tagName;
                 this.length = 1;
-            }else {
+            }else { //当传入基本元素属性
                 var selectors = document.querySelectorAll(selector);
+                //是数组
                 if(selectors.length>1){
                     this.obj = selectors;
                     this.length = selector.length;
-                }else{
+                }else{  //为ID只是一个时
                     this.obj = document.querySelector(selector);
                     this.length = 1;
                 }
+                selectors = null;
                 this.selector = selector;
             }
             return this;
         },
 
-        /***
-         * event, data, func
-         */
-        bind : function(){
-
-            if(arguments.length == 1){
-                //参数只有一个时，那是对象，键值对，key是事件名称，value是callback
-                var events = arguments[0];
-
-                for(var item in events){
-                    addEvent(item, events[item]);
-                }
-
-            }else if(arguments.length == 2){
-                //
-                addEvent(arguments[0],arguments[1]);
-            }else{
-                //
-                addEvent()
-            }
-
-            /***
-             * 区分是IE8以下用attach，IE使用attachEvent
-             * @param type
-             * @param func
-             */
-            function addEvent(type, func){
-                if(window.addEventListener){
-                    this.obj.addEventListener(type, func, false);
-                }else if(window.attachEvent){
-                    this.obj.attachEvent('on' + type, func);
-                }
-            }
-            return this;
-        },
-
-        unbind : function(){
-            if(arguments.length == 1){
-                //
-                var events = arguments[0];
-
-                for(var item in events){
-                    removeEvent(item, events[item]);
-                }
-
-            }else if(arguments.length == 2){
-                //
-                removeEvent(arguments[0],arguments[1]);
-            }else{
-                //
-                removeEvent();
-            }
-
-            function removeEvent(type, func){
-                if(window.removeEventListener){
-                    this.obj.removeEventListener(type, func, false);
-                }else if(window.detachEvent){
-                    this.obj.detachEvent('on' + type, func);
-                }
-            }
-            return this;
-        },
 
         attr : function(attrName, attrValue){
             if(arguments.length == 1){
@@ -307,7 +252,83 @@
 
         },
 
+        /***********************event************************/
+
+        ready : function(func){
+            //IE6，7，8支持
+            $(document).bind("DOMContentLoaded", function(){
+                func();
+            });
+        },
+
+
+        /***
+         * event, data, func
+         */
+        bind : function(){
+            var that = this;
+            if(arguments.length == 1){
+                //参数只有一个时，那是对象，键值对，key是事件名称，value是callback
+                var events = arguments[0];
+
+                for(var item in events){
+                    addEvent(item, events[item]);
+                }
+
+            }else if(arguments.length == 2){
+                //
+                addEvent(arguments[0],arguments[1]);
+            }else{
+                //
+                addEvent()
+            }
+
+            /***
+             * 区分是IE8以下用attach，IE使用attachEvent
+             * @param type
+             * @param func
+             */
+            function addEvent(type, func){
+                if(window.addEventListener){
+                    that.obj.addEventListener(type, func, false);
+                }else if(window.attachEvent){
+                    that.obj.attachEvent('on' + type, func);
+                }
+            }
+            return this;
+        },
+
+        unbind : function(){
+            if(arguments.length == 1){
+                //
+                var events = arguments[0];
+
+                for(var item in events){
+                    removeEvent(item, events[item]);
+                }
+
+            }else if(arguments.length == 2){
+                //
+                removeEvent(arguments[0],arguments[1]);
+            }else{
+                //
+                removeEvent();
+            }
+
+            function removeEvent(type, func){
+                if(window.removeEventListener){
+                    this.obj.removeEventListener(type, func, false);
+                }else if(window.detachEvent){
+                    this.obj.detachEvent('on' + type, func);
+                }
+            }
+            return this;
+        },
+
+
     };
+
+    document
 
     Daisy.prototype.init.prototype = Daisy.prototype;
 

@@ -306,7 +306,6 @@
                 for(var item in events){
                     removeEvent(item, events[item]);
                 }
-
             }else if(arguments.length == 2){
                 //
                 removeEvent(arguments[0],arguments[1]);
@@ -326,9 +325,11 @@
         },
 
 
+
+
     };
 
-    document
+
 
     Daisy.prototype.init.prototype = Daisy.prototype;
 
@@ -336,6 +337,7 @@
 
 
     window.$ = Daisy;
+
 })(window);
 
 

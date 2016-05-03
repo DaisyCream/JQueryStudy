@@ -51,6 +51,8 @@
             return new jQuery.fn.init(selector, context);
         },
 
+        //Support: Android<4.1
+        // Make sure we trim修剪 Bom and NBSP
         rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
 
         // Matches dashed string for camelizing
@@ -159,6 +161,7 @@
             target = {};
         }
 
+        //
         if( i === length){
             target = this;
             i--;
@@ -199,8 +202,10 @@
 
     jQuery.extend({
 
+        //
         expando : "jQuery" + (version + Math.random()).replace(/\D/g, ""),
 
+        //
         isReady : true,
 
         error : function(msg){
@@ -213,17 +218,69 @@
             return jQuery.type(obj) === "function";
         },
 
+        //判断是否是数组，数组自带方法Array.isArray(str);
         isArray : Array.isArray,
 
         isWindow : function(obj){
             return obj != null && obj === obj.window;
         },
 
-        isNumeric : function(obj){
-            var realStringObj = obj && obj.toString();
-            return !jQuery.isArray(obj)&& (realStringObj) - parseFloat(realStringObj)
+        isNumeric : function(obj) {
+            var realStringObj = obj && obj.toString();//存在就为obj，不然obj的toString
+            return !jQuery.isArray(obj) && (realStringObj - parseFloat(realStringObj) + 1) >= 0;
+        },
 
+        isPlainObject: function(obj){
+            var key;
+
+            if(jQuery.type(obj) !== "object" || obj.nodeType || jQuery.isWindow(obj)){
+                return false;
+            }
+
+            if( obj.constructor &&
+                !hasOwn.call( obj, "constructor") &&
+                !hasOwn.call( obj.constructor.prototype || {}, "isPrototypeOf")){
+                return false;
+            }
+
+            for( key in obj){}
+
+            return key === undefined || hasOwn.call(obj, key);
+        },
+
+        isEmptyObject: function( obj ){
+            var name;
+            for( name in obj ){
+                return false;
+            }
+            return true;;
+        },
+
+        type : function( obj ){
+            if( obj == null ){
+                return obj + "";
+            }
+
+            return typeof obj === "object" || typeof obj === "function" ?
+                class2type[ toString.call(obj) ] || "object" :
+                typeof obj;
+        },
+
+        globalEval : function( code ){
+            var script,
+                indirect = eval;
+
+            code = jQuery.trim( code );
+
+            if( code ){
+
+                if( code.indexOf( "use strict" ) === 1 ){
+                    script = document.createElement( "script" );
+                }
+            }
         }
+
+
     })
 
 

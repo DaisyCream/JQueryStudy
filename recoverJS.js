@@ -270,18 +270,199 @@
             var script,
                 indirect = eval;
 
+            //过滤空格
             code = jQuery.trim( code );
 
             if( code ){
 
                 if( code.indexOf( "use strict" ) === 1 ){
                     script = document.createElement( "script" );
+                    script.text = code;
+                    document.head.appendChild(script).parentNode.removeChild(script);
+                } else {
+                    indirect(code);
                 }
             }
+        },
+
+        camelCase : function (string) {
+            return string.replace(rmsPrefix, "ms-").replace(rdashAlpha, fcamelCase);
+        },
+
+        /***
+         * 如果元素的名字相等的话，返回true，否则就false
+         * @param elem
+         * @param name
+         * @returns {jQuery.nodeName|Function|string|boolean}
+         */
+        nodeName : function(elem, name){
+            return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
+        },
+
+        each : function(obj, callback){
+            var length,
+                i = 0;
+
+            if( isArrayLike(obj)){//类数组对象
+                length = obj.length;
+                for( ;i<length;i++){
+                    if( callback.call(obj[i], i, obj[i]) === false){
+                        break;
+                    }
+                }
+            } else{//对象
+                for( i in obj){
+                    if(callback.call(obj[i], i, obj[i]) === false){
+                        break;
+                    }
+                }
+            }
+
+            return obj;
+
+        },
+
+        //Support: Android<4.1
+        trim : function(text){
+            return text == null ?
+                "":
+                (text + "").replace(rtrim, "");
+        },
+
+        makeArray : function(arr, results){
+            var ret = results || [];
+
+            if(arr != null){
+                if(isArrayList(Object(arr))){
+                    //merge方法是两个数组联合，所以需要把不是数组的变为数组
+                    jQuery.merge(ret,
+                        typeof arr === "string"?
+                            [arr] : arr
+                    );
+                }else{//若是数组
+                    push.call(ret, arr);
+                }
+            }
+
+        },
+
+        /***
+         * 检索位置i,indexOf(str,i),i为从什么位置开始检索
+         * @param elem
+         * @param arr
+         * @param i
+         * @returns {number}
+         */
+        inArray : function(elem, arr, i){
+            return arr == null ? -1 : indexOf.call(arr, elem, i);
+        },
+
+        merge : function(first, second){
+            var len = +second.length,
+                j = 0,
+                i = first.length;
+
+            for( ; j < len ;j++){
+                first[i++] = second[j];
+            }
+
+            first.length = i;
+
+            return first;
+        },
+
+        grep : function(elems, callback, invert){//转化
+            var callbackInverse,
+                matches = [],
+                i = 0,
+                length = elems.length,
+                callbackExcept = !invert;
+
+            for(;i < length;i++){
+                callbackInverse = !callback(elems[i], i);
+                if(callbackInverse !== callbackExcept){
+                    matches.push(elems[i]);
+                }
+            }
+            return matches;
+        },
+
+
+        map : function(elems, callback, arg){
+            var length, value,
+                i = 0,
+                ret = [];
+
+            if(isArrayLike(elems)){
+                length = elems.length;
+                for( ;i<length;i++){
+                    value = callback(elems[i], i, arg);
+
+                    if(value != null){
+                        ret.push(value);
+                    }
+                }
+            } else{
+                for(i in elems){
+                    value = callback(elems[i], i, arg);//value index
+
+                    if(value != null){
+                        ret.push(value);
+                    }
+                }
+            }
+
+            return concat.apply([], ret);
+        },
+
+        guid : 1,
+
+        //绑定一个功能到上下文中，可选择部分的应用所有的参数
+        proxy : function (fn, context) {
+            var tmp, args, proxy;
+
+            //说明fn是一个对象，而且运行的函数就在fn[context]中，环境就是fn自身
+            if(typeof context === "string"){
+                tmp = fn[context];
+                context = fn;
+                fn = tmp;
+            }
+
+            if(!jQuery.isFunction(fn)){
+                return undefined;
+            }
+
+            args = slice.call(arguments, 2);//多余的参数
+            proxy = function(){
+                //slice.call()目的是将arguments类数组对象变为数组
+                return fn.apply(context || this, args.concat(slice.call(arguments)));
+            };
+
+            //不明白！！！
+            proxy.guid = fn.guid = fn.guid || jQuery.guid++;
+
+            return proxy;
+        },
+
+        now : Date.now,
+
+        support : support
+
+    });
+
+    if(typeof Symbol === "function"){
+        jQuery.fn[Symbol.iterator] = arr[Symbol.iterator];
+    }
+
+    jQuery.each("Boolean Number String Function Array Data RegExp Object Error Symbol".split(" "),
+        function(i, name){
+            class2type["[Object " + name + "]"] = name.toLowerCase();
         }
+    );
 
 
-    })
+
+
 
 
 

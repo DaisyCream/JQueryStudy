@@ -328,17 +328,17 @@ jQuery.extend( {
 
 		if ( code ) {
 
-			// If the code includes a valid, prologue position
-			// strict mode pragma, execute code by injecting a
-			// script tag into the document.
+			 //If the code includes a valid, prologue position
+			 //strict mode pragma, execute code by injecting a
+			 //script tag into the document.
 			if ( code.indexOf( "use strict" ) === 1 ) {
 				script = document.createElement( "script" );
 				script.text = code;
 				document.head.appendChild( script ).parentNode.removeChild( script );
 			} else {
 
-				// Otherwise, avoid the DOM node creation, insertion
-				// and removal by using an indirect global eval
+				 //Otherwise, avoid the DOM node creation, insertion
+				 //and removal by using an indirect global eval
 
 				indirect( code );
 			}
@@ -474,8 +474,8 @@ jQuery.extend( {
 	// A global GUID counter for objects
 	guid: 1,
 
-	// Bind a function to a context, optionally partially applying any
-	// arguments.
+	 //Bind a function to a context, optionally partially applying any
+	 //arguments.
 	proxy: function( fn, context ) {
 		var tmp, args, proxy;
 
@@ -485,8 +485,8 @@ jQuery.extend( {
 			fn = tmp;
 		}
 
-		// Quick check to determine if target is callable, in the spec
-		// this throws a TypeError, but we will just return undefined.
+		 //Quick check to determine if target is callable, in the spec
+		 //this throws a TypeError, but we will just return undefined.
 		if ( !jQuery.isFunction( fn ) ) {
 			return undefined;
 		}
@@ -510,10 +510,10 @@ jQuery.extend( {
 	support: support
 } );
 
-// JSHint would error on this code due to the Symbol not being defined in ES5.
-// Defining this global in .jshintrc would create a danger of using the global
-// unguarded in another place, it seems safer to just disable JSHint for these
-// three lines.
+ //JSHint would error on this code due to the Symbol not being defined in ES5.
+ //Defining this global in .jshintrc would create a danger of using the global
+ //unguarded in another place, it seems safer to just disable JSHint for these
+ //three lines.
 /* jshint ignore: start */
 if ( typeof Symbol === "function" ) {
 	jQuery.fn[ Symbol.iterator ] = arr[ Symbol.iterator ];

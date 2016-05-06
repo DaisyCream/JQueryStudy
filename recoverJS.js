@@ -221,6 +221,7 @@
         //判断是否是数组，数组自带方法Array.isArray(str);
         isArray : Array.isArray,
 
+        //ES标准要求，所有的js解释器都要将window对象视为全局(global)，并且global.window = global
         isWindow : function(obj){
             return obj != null && obj === obj.window;
         },
@@ -459,6 +460,186 @@
             class2type["[Object " + name + "]"] = name.toLowerCase();
         }
     );
+
+    function isArrayLike(obj){
+
+        //in操作符用来判断某个属性属于某个对象
+        var length = !!obj && "length" in obj && obj.length,
+            type = jQuery.type(obj);
+
+        //排除function和window和global对象
+        if(type === "function" || jQuery.isWindow(obj)){
+            return false;
+        }
+
+        return type === "array" || length === 0 || typeof length === "number" &&
+                length > 0 && (length -1) in obj;
+    }
+
+    var Sizzle =
+        (function(window){
+                var i,
+                    support,
+                    Expr,
+                    getText,
+                    isXML,
+                    tokenize,
+                    complie,
+                    select,
+                    outermostContext,
+                    sortInput,
+                    hasDuplicate,//重复
+
+                    //Local document vars
+                    setDocument,
+                    document,
+                    docElem,
+                    documenIsHTML,
+                    rbuggyQSA,
+                    rbuggyMathes,
+                    mathes,
+                    contains,
+
+                    //Instance-specific data
+                    expando = "sizzle" + 1 * new Date(),
+                    preferredDoc = window.document,
+                    dirruns = 0,
+                    done = 0,
+                    classCache = createCache(),
+                    tokenCache = createCache(),
+                    compilerCache = createCache(),
+                    sortOrder = function(a,b){
+                        if(a == b){
+                            hasDuplicate = true;
+                        }
+                        return 0;
+                    },
+
+                    // General-purpose constants
+                    MAX_NEGATIVE = 1 << 31,
+
+                    //Instance methods
+                    hasOwn = ({}).hasOwnProperty,
+                    arr = [],
+                    pop = arr.pop,
+                    push_native = arr.push,
+                    push = arr.push,
+                    slice = arr.slice,
+                    //使用一个精简的指标让它比本地更快
+                    indexOf = function(list, elem){
+                        var i= 0,
+                            len = list.length;
+                        for( ; i < len; i++){
+                            if(list[i] === elem){
+                                return i;
+                            }
+                        }
+                        return -1;
+                    },
+
+                    booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",
+
+                    // regular expressions
+
+                    whitespace = "[\\x20\\t\\r\\n\\f]",
+
+                    identifier = "(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+",
+
+                    // Attribute selectors: http://www.w3.org/TR/selectors/#attribute-selectors
+                    attributes = "\\[" + whitespace + "*(" + identifier + ")(?:" + whitespace +
+                            // Operator (capture 2)
+                        "*([*^$|!~]?=)" + whitespace +
+                            // "Attribute values must be CSS identifiers [capture 5] or strings [capture 3 or capture 4]"
+                        "*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|(" + identifier + "))|)" + whitespace +
+                        "*\\]",
+
+                    pseudos = ":(" + identifier + ")(?:\\((" +
+                            // To reduce the number of selectors needing tokenize in the preFilter, prefer arguments:
+                            // 1. quoted (capture 3; capture 4 or capture 5)
+                        "('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|" +
+                            // 2. simple (capture 6)
+                        "((?:\\\\.|[^\\\\()[\\]]|" + attributes + ")*)|" +
+                            // 3. anything else (capture 2)
+                        ".*" +
+                        ")\\)|)",
+
+                    // Leading and non-escaped trailing whitespace, capturing some non-whitespace characters preceding the latter
+                    rwhitespace = new RegExp( whitespace + "+", "g" ),
+                    rtrim = new RegExp( "^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$", "g" ),
+
+                    rcomma = new RegExp( "^" + whitespace + "*," + whitespace + "*" ),
+                    rcombinators = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace + "*" ),
+
+                    rattributeQuotes = new RegExp( "=" + whitespace + "*([^\\]'\"]*?)" + whitespace + "*\\]", "g" ),
+
+                    rpseudo = new RegExp( pseudos ),
+                    ridentifier = new RegExp( "^" + identifier + "$" ),
+
+                    matchExpr = {
+                        "ID": new RegExp( "^#(" + identifier + ")" ),
+                        "CLASS": new RegExp( "^\\.(" + identifier + ")" ),
+                        "TAG": new RegExp( "^(" + identifier + "|[*])" ),
+                        "ATTR": new RegExp( "^" + attributes ),
+                        "PSEUDO": new RegExp( "^" + pseudos ),
+                        "CHILD": new RegExp( "^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\(" + whitespace +
+                            "*(even|odd|(([+-]|)(\\d*)n|)" + whitespace + "*(?:([+-]|)" + whitespace +
+                            "*(\\d+)|))" + whitespace + "*\\)|)", "i" ),
+                        "bool": new RegExp( "^(?:" + booleans + ")$", "i" ),
+                        // For use in libraries implementing .is()
+                        // We use this for POS matching in `select`
+                        "needsContext": new RegExp( "^" + whitespace + "*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(" +
+                            whitespace + "*((?:-\\d)?\\d*)" + whitespace + "*\\)|)(?=[^-]|$)", "i" )
+                    },
+
+                    rinputs = /^(?:input|select|textarea|button)$/i,
+                    rheader = /^h\d$/i,
+
+                    rnative = /^[^{]+\{\s*\[native \w/,
+
+                    // Easily-parseable/retrievable ID or TAG or CLASS selectors
+                    rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
+
+                    rsibling = /[+~]/,
+                    rescape = /'|\\/g,
+
+                    runescape = new RegExp( "\\\\([\\da-f]{1,6}" + whitespace + "?|(" + whitespace + ")|.)", "ig" ),
+                    funescape = function(_, escaped, escapedWhitespace){
+                        var high = "0x" + escaped - 0x10000;
+
+                        return high !== high || escapedWhitespace ?
+                            escaped :
+                            high < 0 ?
+                                //BMP codepoint
+                                String.fromCharCode(high + 0x10000) :
+                                String.fromCharCode(high >> 10 | 0xD800, high & 0x3FF | 0xDC00);
+
+                    },
+
+                    unloadHandler = function() {
+                        setDocument();
+                    };
+
+
+                try {
+                    push.apply(
+                        (arr = slice.call(preferredDoc.childNodes)),
+                        preferredDoc.childNodes
+                    );
+
+                    // Support : Android < 4.0
+                    // 静态变量检测push.call失败
+                    arr[preferredDoc.childNodes.length].nodeType;
+                }catch(e){
+                    push = { apply : arr.length ?
+
+                        function(target , els){
+                            push_native.apply( target, slice.call(els));
+                        }
+                        : function(){}};
+                }
+            }
+
+        );
 
 
 

@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b6d079d0-f48f-446a-8995-cbbef1ac4625" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gitStudy/cz.js" afterPath="$PROJECT_DIR$/gitStudy/cz.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/recoverJS.js" afterPath="$PROJECT_DIR$/recoverJS.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/event/eventOn.js" afterPath="$PROJECT_DIR$/event/eventOn.js" />
     </list>
     <ignored path="JQueryStudy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,9 +26,11 @@
       <file leaf-file-name="eventOn.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/event/eventOn.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.78737116">
-              <caret line="51" column="36" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="36" />
-              <folding />
+            <state vertical-scroll-proportion="0.57474226">
+              <caret line="170" column="25" selection-start-line="170" selection-start-column="25" selection-end-line="170" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#43#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -214,7 +214,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="681" y="23" width="725" height="873" extended-state="0" />
+    <frame x="681" y="23" width="725" height="873" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
@@ -265,6 +265,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23195876">
           <caret line="14" column="26" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#44#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -279,14 +282,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4780928">
           <caret line="320" column="45" selection-start-line="320" selection-start-column="45" selection-end-line="320" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#44#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/event/eventOn.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.78737116">
-          <caret line="51" column="36" selection-start-line="51" selection-start-column="36" selection-end-line="51" selection-end-column="36" />
-          <folding />
+        <state vertical-scroll-proportion="0.57474226">
+          <caret line="170" column="25" selection-start-line="170" selection-start-column="25" selection-end-line="170" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#43#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

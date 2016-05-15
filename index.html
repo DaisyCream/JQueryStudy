@@ -39,7 +39,6 @@
         });
 
         element.bind("change.tabs", function(e, tabName){
-            console.log(this);
             console.log(tabName);
             element.find("li").removeClass("active");
             element.find(">[data-tab='" + tabName + "']").addClass("active");
@@ -56,8 +55,6 @@
 
         return this;
     };
-
-    $("ul#tabs").addClass("seen");
 
     $("ul#tabs").tabs("#tabsContent");
 </script>

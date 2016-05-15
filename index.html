@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.8.2.min.js" type="text/javascript"></script>
+</head>
+<style type="text/css">
+    .active{
+        background-color: aqua;
+    }
+    .seen{
+        background-color: blueviolet;
+    }
+
+</style>
+<body>
+<ul id="tabs">
+    <li data-tab = "users">Users</li>
+    <li data-tab = "groups">Groups</li>
+</ul>
+
+<div id="tabsContent">
+    <div data-tab = "users">Users</div>
+    <div data-tab = "groups">Groups</div>
+</div>
+
+</body>
+</html>
+<script>
+    $.fn.tabs = function(control){
+        var element = $(this),
+            control = $(control);
+
+        element.delegate("li","click",function(){
+            var tabName = $(this).attr("data-tab");
+            element.trigger("change.tabs", tabName);
+
+        });
+
+        element.bind("change.tabs", function(e, tabName){
+            console.log(this);
+            console.log(tabName);
+            element.find("li").removeClass("active");
+            element.find(">[data-tab='" + tabName + "']").addClass("active");
+        });
+
+        element.bind("change.tabs", function(e, tabName){
+            console.log(tabName);
+            element.find(">[data-tab]").removeClass("active");
+            element.find(">[data-tab = '" + tabName + "']").addClass("active");
+        });
+
+        var firstName = element.find("li:first").attr("data-tab");
+        element.trigger("change.tabs", firstName);
+
+        return this;
+    };
+
+    $("ul#tabs").addClass("seen");
+
+    $("ul#tabs").tabs("#tabsContent");
+</script>

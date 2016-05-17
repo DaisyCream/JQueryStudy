@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <script src="jquery-1.8.2.min.js"></script>
+    <script src="../jquery-1.8.2.min.js"></script>
 </head>
 <body>
 <div id='p1' style="width: 500px;height: 500px;background: #ccc">点击d
@@ -37,5 +37,21 @@
 //    });
 //
 //    p4.trigger('click.aaa');
+
+
+    var evt = $("#p1").createEvent("ss");
+
+    evt.initEvent("eventDome", false, false);
+
+    document.dispatchEvent(evt);
+
+
+
+
+
+
+
+
+
 
 </script>
